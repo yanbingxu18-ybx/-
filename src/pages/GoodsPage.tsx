@@ -127,16 +127,14 @@ export function GoodsPage() {
       {
         id: String(Date.now()),
         goodsId: editingGoods?.id || '',
-        name: '',
-        value: '',
         shelfLifeDays: 0,
       },
     ]);
   };
 
-  const updateShelfLifeDetail = (index: number, field: keyof GoodsShelfLifeDetail, value: string | number) => {
+  const updateShelfLifeDetail = (index: number, value: number) => {
     const updated = [...shelfLifeDetails];
-    updated[index] = { ...updated[index], [field]: value };
+    updated[index] = { ...updated[index], shelfLifeDays: value };
     setShelfLifeDetails(updated);
   };
 
@@ -386,25 +384,11 @@ export function GoodsPage() {
                   <div key={detail.id} className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
                     <span className="text-xs text-slate-500 w-8">#{index + 1}</span>
                     <input
-                      type="text"
-                      value={detail.name}
-                      onChange={(e) => updateShelfLifeDetail(index, 'name', e.target.value)}
-                      className="flex-1 px-2 py-1 text-sm border border-slate-300 rounded"
-                      placeholder="名称"
-                    />
-                    <input
-                      type="text"
-                      value={detail.value}
-                      onChange={(e) => updateShelfLifeDetail(index, 'value', e.target.value)}
-                      className="flex-1 px-2 py-1 text-sm border border-slate-300 rounded"
-                      placeholder="条件值"
-                    />
-                    <input
                       type="number"
                       value={detail.shelfLifeDays}
-                      onChange={(e) => updateShelfLifeDetail(index, 'shelfLifeDays', parseInt(e.target.value) || 0)}
-                      className="w-24 px-2 py-1 text-sm border border-slate-300 rounded"
-                      placeholder="效期天数"
+                      onChange={(e) => updateShelfLifeDetail(index, parseInt(e.target.value) || 0)}
+                      className="flex-1 px-2 py-1 text-sm border border-slate-300 rounded"
+                      placeholder="货物效期（天）"
                       min="0"
                     />
                     <button
@@ -475,9 +459,9 @@ export function GoodsPage() {
               <span className="text-sm font-medium text-slate-700">货物效期明细</span>
               {detailGoods.shelfLifeDetails && detailGoods.shelfLifeDetails.length > 0 ? (
                 <div className="mt-2 space-y-1">
-                  {detailGoods.shelfLifeDetails.map((detail) => (
+                  {detailGoods.shelfLifeDetails.map((detail, index) => (
                     <div key={detail.id} className="flex justify-between text-sm">
-                      <span className="text-slate-600">{detail.name} ({detail.value})</span>
+                      <span className="text-slate-600">效期{index + 1}</span>
                       <span className="text-slate-800 font-medium">{detail.shelfLifeDays}天</span>
                     </div>
                   ))}

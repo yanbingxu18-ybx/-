@@ -9,8 +9,8 @@ export const mockGoods: Goods[] = [
     unit: '件', 
     shelfLifeDays: 365, 
     shelfLifeDetails: [
-      { id: 'd1', goodsId: '1', name: '常规', value: '常温', shelfLifeDays: 365 },
-      { id: 'd2', goodsId: '1', name: '冷藏', value: '2-8℃', shelfLifeDays: 730 },
+      { id: 'd1', goodsId: '1', shelfLifeDays: 365 },
+      { id: 'd2', goodsId: '1', shelfLifeDays: 730 },
     ],
     createdAt: '2026-01-10 10:00:00', 
     updatedAt: '2026-01-10 10:00:00' 
@@ -23,7 +23,7 @@ export const mockGoods: Goods[] = [
     unit: '箱', 
     shelfLifeDays: 365, 
     shelfLifeDetails: [
-      { id: 'd3', goodsId: '2', name: '常规', value: '常温', shelfLifeDays: 365 },
+      { id: 'd3', goodsId: '2', shelfLifeDays: 365 },
     ],
     createdAt: '2026-01-11 11:00:00', 
     updatedAt: '2026-01-11 11:00:00' 
@@ -36,8 +36,8 @@ export const mockGoods: Goods[] = [
     unit: '箱', 
     shelfLifeDays: 180, 
     shelfLifeDetails: [
-      { id: 'd4', goodsId: '3', name: '常温', value: '25℃以下', shelfLifeDays: 180 },
-      { id: 'd5', goodsId: '3', name: '冷藏', value: '2-6℃', shelfLifeDays: 360 },
+      { id: 'd4', goodsId: '3', shelfLifeDays: 180 },
+      { id: 'd5', goodsId: '3', shelfLifeDays: 360 },
     ],
     createdAt: '2026-02-01 09:00:00', 
     updatedAt: '2026-02-01 09:00:00' 
@@ -50,7 +50,7 @@ export const mockGoods: Goods[] = [
     unit: '箱', 
     shelfLifeDays: 21, 
     shelfLifeDetails: [
-      { id: 'd6', goodsId: '4', name: '冷藏', value: '2-6℃', shelfLifeDays: 21 },
+      { id: 'd6', goodsId: '4', shelfLifeDays: 21 },
     ],
     createdAt: '2026-02-15 14:00:00', 
     updatedAt: '2026-02-15 14:00:00' 
@@ -63,7 +63,7 @@ export const mockGoods: Goods[] = [
     unit: '件', 
     shelfLifeDays: 540, 
     shelfLifeDetails: [
-      { id: 'd7', goodsId: '5', name: '常规', value: '常温', shelfLifeDays: 540 },
+      { id: 'd7', goodsId: '5', shelfLifeDays: 540 },
     ],
     createdAt: '2026-03-01 10:00:00', 
     updatedAt: '2026-03-01 10:00:00' 
@@ -76,7 +76,7 @@ export const mockGoods: Goods[] = [
     unit: '件', 
     shelfLifeDays: 730, 
     shelfLifeDetails: [
-      { id: 'd8', goodsId: '6', name: '常规', value: '常温', shelfLifeDays: 730 },
+      { id: 'd8', goodsId: '6', shelfLifeDays: 730 },
     ],
     createdAt: '2026-03-10 08:00:00', 
     updatedAt: '2026-03-10 08:00:00' 
@@ -89,7 +89,7 @@ export const mockGoods: Goods[] = [
     unit: '件', 
     shelfLifeDays: 365, 
     shelfLifeDetails: [
-      { id: 'd9', goodsId: '7', name: '常规', value: '常温', shelfLifeDays: 365 },
+      { id: 'd9', goodsId: '7', shelfLifeDays: 365 },
     ],
     createdAt: '2026-04-01 09:00:00', 
     updatedAt: '2026-04-01 09:00:00' 
@@ -102,7 +102,7 @@ export const mockGoods: Goods[] = [
     unit: '箱', 
     shelfLifeDays: 180, 
     shelfLifeDetails: [
-      { id: 'd10', goodsId: '8', name: '常规', value: '常温', shelfLifeDays: 180 },
+      { id: 'd10', goodsId: '8', shelfLifeDays: 180 },
     ],
     createdAt: '2026-04-15 11:00:00', 
     updatedAt: '2026-04-15 11:00:00' 
@@ -115,7 +115,7 @@ export const mockGoods: Goods[] = [
     unit: '箱', 
     shelfLifeDays: 365, 
     shelfLifeDetails: [
-      { id: 'd11', goodsId: '9', name: '常规', value: '常温', shelfLifeDays: 365 },
+      { id: 'd11', goodsId: '9', shelfLifeDays: 365 },
     ],
     createdAt: '2026-05-01 10:00:00', 
     updatedAt: '2026-05-01 10:00:00' 
@@ -128,8 +128,8 @@ export const mockGoods: Goods[] = [
     unit: '箱', 
     shelfLifeDays: 180, 
     shelfLifeDetails: [
-      { id: 'd12', goodsId: '10', name: '常温', value: '25℃以下', shelfLifeDays: 180 },
-      { id: 'd13', goodsId: '10', name: '冷藏', value: '0-10℃', shelfLifeDays: 360 },
+      { id: 'd12', goodsId: '10', shelfLifeDays: 180 },
+      { id: 'd13', goodsId: '10', shelfLifeDays: 360 },
     ],
     createdAt: '2026-05-10 14:00:00', 
     updatedAt: '2026-05-10 14:00:00' 

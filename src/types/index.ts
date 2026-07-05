@@ -1,8 +1,6 @@
 export interface GoodsShelfLifeDetail {
   id: string;
   goodsId: string;
-  name: string;
-  value: string;
   shelfLifeDays: number;
 }
 
@@ -83,12 +81,7 @@ export interface BillData {
 }
 
 export type PageTab = 
-  | 'home' 
   | 'goods' 
   | 'stores' 
   | 'customerOutboundRule' 
-  | 'customers' 
-  | 'vehicles' 
-  | 'reports' 
-  | 'settings' 
-  | 'help';
+  | 'customers';

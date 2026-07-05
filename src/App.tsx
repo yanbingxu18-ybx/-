@@ -1,36 +1,24 @@
 import { useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
-import { HomePage } from './pages/HomePage';
 import { GoodsPage } from './pages/GoodsPage';
 import { StoresPage } from './pages/StoresPage';
 import { CustomerOutboundRulePage } from './pages/CustomerOutboundRulePage';
 import { CustomersPage } from './pages/CustomersPage';
-import { VehiclesPage } from './pages/VehiclesPage';
-import { ReportsPage } from './pages/ReportsPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { HelpPage } from './pages/HelpPage';
 import { PageTab } from './types';
 
 const pageTitles: Record<PageTab, string> = {
-  home: '首页',
   goods: '货物管理',
   stores: '仓库管理',
   customerOutboundRule: '客户出库规则',
   customers: '客户管理',
-  vehicles: '车辆管理',
-  reports: '统计报表',
-  settings: '系统设置',
-  help: '帮助中心',
 };
 
 function App() {
-  const [activeTab, setActiveTab] = useState<PageTab>('home');
+  const [activeTab, setActiveTab] = useState<PageTab>('goods');
 
   const renderPage = () => {
     switch (activeTab) {
-      case 'home':
-        return <HomePage />;
       case 'goods':
         return <GoodsPage />;
       case 'stores':
@@ -39,16 +27,8 @@ function App() {
         return <CustomerOutboundRulePage />;
       case 'customers':
         return <CustomersPage />;
-      case 'vehicles':
-        return <VehiclesPage />;
-      case 'reports':
-        return <ReportsPage />;
-      case 'settings':
-        return <SettingsPage />;
-      case 'help':
-        return <HelpPage />;
       default:
-        return <HomePage />;
+        return <GoodsPage />;
     }
   };
 

@@ -29,6 +29,9 @@ export function StoresPage() {
     longitude: 0,
   });
 
+  const [customLatitude, setCustomLatitude] = useState('');
+  const [customLongitude, setCustomLongitude] = useState('');
+
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -97,6 +100,8 @@ export function StoresPage() {
 
   const resetForm = () => {
     setFormData({ code: '', name: '', type: '常温', location: '', latitude: 0, longitude: 0 });
+    setCustomLatitude('');
+    setCustomLongitude('');
     setErrors({});
     setEditingStore(null);
     setShowMap(false);
@@ -112,6 +117,8 @@ export function StoresPage() {
       latitude: item.latitude,
       longitude: item.longitude,
     });
+    setCustomLatitude(String(item.latitude));
+    setCustomLongitude(String(item.longitude));
     setShowModal(true);
   };
 
@@ -146,9 +153,19 @@ export function StoresPage() {
     setShowSuggestions(false);
   };
 
-  const randomSelectLocation = () => {
-    const randomIndex = Math.floor(Math.random() * addressSuggestions.length);
-    selectAddress(addressSuggestions[randomIndex]);
+  const applyCustomLocation = () => {
+    const lat = parseFloat(customLatitude);
+    const lng = parseFloat(customLongitude);
+    if (!isNaN(lat) && !isNaN(lng)) {
+      setFormData({
+        ...formData,
+        latitude: lat,
+        longitude: lng,
+      });
+      setShowMap(false);
+    } else {
+      alert('请输入有效的经纬度数值');
+    }
   };
 
   const getTypeColor = (type: string) => {
@@ -424,11 +441,33 @@ export function StoresPage() {
                   <p className="text-sm">当前位置：{formData.location || '未选择'}</p>
                 </div>
               </div>
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">纬度</label>
+                  <input
+                    type="text"
+                    value={customLatitude}
+                    onChange={(e) => setCustomLatitude(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请输入纬度"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">经度</label>
+                  <input
+                    type="text"
+                    value={customLongitude}
+                    onChange={(e) => setCustomLongitude(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请输入经度"
+                  />
+                </div>
+              </div>
               <button
-                onClick={randomSelectLocation}
+                onClick={applyCustomLocation}
                 className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                随机选择位置
+                应用自定义定位
               </button>
             </div>
           )}
