@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Package, Warehouse, AlertTriangle, Users, ChevronDown, ChevronRight, Truck, FileText } from 'lucide-react';
+import { Package, Warehouse, AlertTriangle, Users, ChevronDown, ChevronRight, Truck, FileText, BarChart3 } from 'lucide-react';
 import { PageTab } from '../types';
 
 interface SidebarProps {
@@ -24,6 +24,7 @@ const menuGroups: {
     items: [
       { id: 'inboundPlan', label: '入库计划', icon: Truck },
       { id: 'inboundOrder', label: '入库单管理', icon: FileText },
+      { id: 'stockStat', label: '库存统计', icon: BarChart3 },
     ],
   },
   {

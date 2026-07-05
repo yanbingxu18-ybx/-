@@ -161,10 +161,29 @@ export interface InboundOrder {
   items: InboundOrderItem[];
 }
 
+export interface StockStat {
+  id: string;
+  customerId: string;
+  customerName: string;
+  storeId: string;
+  storeName: string;
+  goodsId: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  stockQuantity: number;
+  stockUnit: string;
+  isGoodQuality: boolean;
+  productionDate: string;
+  expiryDate: string;
+  goodsShelfLife: string;
+}
+
 export type PageTab = 
   | 'goods' 
   | 'stores' 
   | 'customerOutboundRule' 
   | 'customers'
   | 'inboundPlan'
-  | 'inboundOrder';
+  | 'inboundOrder'
+  | 'stockStat';

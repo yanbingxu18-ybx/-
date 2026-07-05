@@ -7,6 +7,7 @@ import { CustomerOutboundRulePage } from './pages/CustomerOutboundRulePage';
 import { CustomersPage } from './pages/CustomersPage';
 import { InboundPlanPage } from './pages/InboundPlanPage';
 import { InboundOrderPage } from './pages/InboundOrderPage';
+import { StockStatPage } from './pages/StockStatPage';
 import { PageTab, InboundPlan } from './types';
 
 const pageTitles: Record<PageTab, string> = {
@@ -16,6 +17,7 @@ const pageTitles: Record<PageTab, string> = {
   customers: '客户管理',
   inboundPlan: '入库计划',
   inboundOrder: '入库单管理',
+  stockStat: '库存统计',
 };
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
         return <InboundPlanPage onGenerateOrder={handleGenerateOrder} />;
       case 'inboundOrder':
         return <InboundOrderPage initialPlan={createOrderFromPlan} onPlanUsed={clearCreateOrderFromPlan} />;
+      case 'stockStat':
+        return <StockStatPage />;
       default:
         return <GoodsPage />;
     }
