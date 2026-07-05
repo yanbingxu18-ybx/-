@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Package, Warehouse, AlertTriangle, Users, ChevronDown, ChevronRight } from 'lucide-react';
+import { Package, Warehouse, AlertTriangle, Users, ChevronDown, ChevronRight, Truck, FileText } from 'lucide-react';
 import { PageTab } from '../types';
 
 interface SidebarProps {
@@ -20,6 +20,13 @@ const menuGroups: {
     ],
   },
   {
+    label: '仓储管理',
+    items: [
+      { id: 'inboundPlan', label: '入库计划', icon: Truck },
+      { id: 'inboundOrder', label: '入库单管理', icon: FileText },
+    ],
+  },
+  {
     label: '规则管理',
     items: [
       { id: 'customerOutboundRule', label: '客户出库规则', icon: AlertTriangle },
@@ -28,7 +35,7 @@ const menuGroups: {
 ];
 
 export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['基础信息', '规则管理']));
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['基础信息', '仓储管理', '规则管理']));
 
   const toggleGroup = (label: string) => {
     const newExpanded = new Set(expandedGroups);

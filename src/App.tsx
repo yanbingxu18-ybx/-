@@ -5,6 +5,8 @@ import { GoodsPage } from './pages/GoodsPage';
 import { StoresPage } from './pages/StoresPage';
 import { CustomerOutboundRulePage } from './pages/CustomerOutboundRulePage';
 import { CustomersPage } from './pages/CustomersPage';
+import { InboundPlanPage } from './pages/InboundPlanPage';
+import { InboundOrderPage } from './pages/InboundOrderPage';
 import { PageTab } from './types';
 
 const pageTitles: Record<PageTab, string> = {
@@ -12,6 +14,8 @@ const pageTitles: Record<PageTab, string> = {
   stores: '仓库管理',
   customerOutboundRule: '客户出库规则',
   customers: '客户管理',
+  inboundPlan: '入库计划',
+  inboundOrder: '入库单管理',
 };
 
 function App() {
@@ -27,6 +31,10 @@ function App() {
         return <CustomerOutboundRulePage />;
       case 'customers':
         return <CustomersPage />;
+      case 'inboundPlan':
+        return <InboundPlanPage />;
+      case 'inboundOrder':
+        return <InboundOrderPage />;
       default:
         return <GoodsPage />;
     }

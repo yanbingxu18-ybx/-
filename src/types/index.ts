@@ -80,8 +80,90 @@ export interface BillData {
   documentDate: string;
 }
 
+export interface InboundPlanItem {
+  id: string;
+  planId: string;
+  goodsId: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  plannedQuantity: number;
+  plannedUnit: string;
+  productionDate: string;
+  expiryDate: string;
+  remark: string;
+}
+
+export interface InboundPlan {
+  id: string;
+  planNo: string;
+  customerId: string;
+  customerCode: string;
+  customerName: string;
+  plannedDate: string;
+  inboundType: '正常入库' | '退货入库' | '拒收入库';
+  storeId: string;
+  storeName: string;
+  plateNumber: string;
+  temperatureZone: '冷藏' | '常温' | '冷冻' | '混装';
+  status: '待入库' | '已生成入库单' | '已关闭';
+  closeReason: string;
+  closeBy: string;
+  closeTime: string;
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  items: InboundPlanItem[];
+}
+
+export interface InboundOrderItem {
+  id: string;
+  orderId: string;
+  goodsId: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  plannedQuantity: number;
+  plannedUnit: string;
+  actualQuantity: number;
+  actualUnit: string;
+  productionDate: string;
+  expiryDate: string;
+  isGoodQuality: boolean;
+  remark: string;
+  isAbnormal: boolean;
+}
+
+export interface InboundOrder {
+  id: string;
+  orderNo: string;
+  planId: string;
+  planNo: string;
+  customerId: string;
+  customerCode: string;
+  customerName: string;
+  customerType: '月库型' | '仓储型';
+  storeId: string;
+  storeName: string;
+  plateNumber: string;
+  plannedDate: string;
+  actualDate: string;
+  inboundType: '正常入库' | '退货入库' | '拒收入库';
+  temperatureZone: '冷藏' | '常温' | '冷冻' | '混装';
+  attachment: string;
+  status: '暂存' | '已生效';
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  items: InboundOrderItem[];
+}
+
 export type PageTab = 
   | 'goods' 
   | 'stores' 
   | 'customerOutboundRule' 
-  | 'customers';
+  | 'customers'
+  | 'inboundPlan'
+  | 'inboundOrder';
