@@ -88,13 +88,14 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
         spec: item.spec,
         plannedQuantity: item.plannedQuantity,
         plannedUnit: item.plannedUnit,
-        actualQuantity: item.plannedQuantity,
-        actualUnit: item.plannedUnit,
+        actualQuantity: 0,
+        actualUnit: '',
         productionDate: item.productionDate,
         expiryDate: item.expiryDate,
         isGoodQuality: true,
         remark: '',
         isAbnormal: false,
+        groupId: String(Date.now() + Math.random()),
       })));
       setShowModal(true);
       if (onPlanUsed) {
@@ -153,12 +154,6 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
     setErrors({});
     setEditingOrder(null);
     setSelectedPlan(null);
-  };
-
-  const handleAddOrder = () => {
-    resetForm();
-    setCustomerTypeMode('warehouse');
-    setShowModal(true);
   };
 
   const handleAddMonthlyOrder = () => {
@@ -313,13 +308,15 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
       ...item,
       id: String(Date.now()),
       actualQuantity: 0,
+      actualUnit: '',
       isGoodQuality: !item.isGoodQuality,
+      groupId: item.groupId || String(Date.now()),
     };
     setItems([...items.slice(0, index + 1), newItem, ...items.slice(index + 1)]);
   };
 
   const updateItem = (index: number, field: keyof InboundOrderItem, value: string | number | boolean) => {
-    const updated = [...items];
+    const updated: InboundOrderItem[] = [...items];
     updated[index] = { ...updated[index], [field]: value };
     
     if (field === 'goodsId' && typeof value === 'string') {
@@ -346,16 +343,26 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
     }
     
     if (field === 'actualQuantity' || field === 'actualUnit') {
-      const planQty = updated[index].plannedQuantity;
-      const planUnit = updated[index].plannedUnit;
-      const actualQty = updated[index].actualQuantity;
-      const actualUnit = updated[index].actualUnit;
-      
-      if (formData.customerType === '仓储型' && planQty > 0 && planUnit) {
-        updated[index] = {
-          ...updated[index],
-          isAbnormal: planQty !== actualQty || planUnit !== actualUnit,
-        };
+      if (formData.customerType === '仓储型') {
+        const groupId = updated[index].groupId;
+        const groupItems = updated.filter(item => item.groupId === groupId);
+        
+        if (groupItems.length > 0) {
+          const planQty = groupItems[0].plannedQuantity;
+          const planUnit = groupItems[0].plannedUnit;
+          const totalActualQty = groupItems.reduce((sum, item) => sum + (item.actualQuantity || 0), 0);
+          const allActualUnitsSame = groupItems.every(item => item.actualUnit === groupItems[0].actualUnit);
+          
+          const isQtyAbnormal = planQty > 0 && planQty !== totalActualQty;
+          const isUnitAbnormal = planUnit && (!allActualUnitsSame || planUnit !== groupItems[0].actualUnit);
+          const isGroupAbnormal = isQtyAbnormal || isUnitAbnormal;
+          
+          updated.forEach((item: InboundOrderItem) => {
+            if (item.groupId === groupId) {
+              item.isAbnormal = !!isGroupAbnormal;
+            }
+          });
+        }
       }
     }
     
@@ -375,14 +382,17 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
     if (!formData.inboundType) newErrors.inboundType = '请选择入库类型';
     if (!formData.temperatureZone) newErrors.temperatureZone = '请选择温层';
     
-    if (formData.temperatureZone !== '常温' && !formData.attachment) {
+    if (!isDraft && formData.temperatureZone !== '常温' && !formData.attachment) {
       newErrors.attachment = '非温层常温时，附件（温度照片）必填';
     }
     
     items.forEach((item, index) => {
       if (!item.goodsId) newErrors[`itemGoods_${index}`] = `第${index + 1}行：请选择货物`;
-      if (!item.actualQuantity || item.actualQuantity <= 0) newErrors[`itemQuantity_${index}`] = `第${index + 1}行：请输入实际入库数量`;
-      if (!item.actualUnit) newErrors[`itemUnit_${index}`] = `第${index + 1}行：请选择单位`;
+      
+      if (!isDraft) {
+        if (!item.actualQuantity || item.actualQuantity <= 0) newErrors[`itemQuantity_${index}`] = `第${index + 1}行：请输入实际入库数量`;
+        if (!item.actualUnit) newErrors[`itemUnit_${index}`] = `第${index + 1}行：请选择单位`;
+      }
       
       const goods = mockGoods.find(g => g.id === item.goodsId);
       if (goods && goods.shelfLifeDays > 0 && !item.productionDate) {
@@ -390,7 +400,7 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
       }
       
       if (!isDraft && item.isAbnormal && !item.remark.trim()) {
-        newErrors[`itemRemark_${index}`] = `第${index + 1}行：实际入库数量/单位与计划不一致，请填写异常原因`;
+        newErrors[`itemRemark_${index}`] = `第${index + 1}行：当前明细实际入库数量或单位与计划不一致，请填写异常原因。`;
       }
     });
     
@@ -489,18 +499,11 @@ export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPagePr
         <h2 className="text-xl font-bold text-slate-800">入库单管理</h2>
         <div className="flex gap-3">
           <button
-            onClick={handleAddOrder}
+            onClick={handleAddMonthlyOrder}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            仓储型入库单
-          </button>
-          <button
-            onClick={handleAddMonthlyOrder}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            月库型入库单
+            新增入库单
           </button>
         </div>
       </div>

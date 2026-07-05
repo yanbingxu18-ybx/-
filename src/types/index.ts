@@ -133,6 +133,7 @@ export interface InboundOrderItem {
   isGoodQuality: boolean;
   remark: string;
   isAbnormal: boolean;
+  groupId?: string;
 }
 
 export interface InboundOrder {
