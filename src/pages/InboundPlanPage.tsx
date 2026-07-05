@@ -4,12 +4,17 @@ import { Modal } from '../components/Modal';
 import { InboundPlan, InboundPlanItem, Customer } from '../types';
 import { mockInboundPlans, mockCustomers, mockGoods, mockStores } from '../mock/data';
 
-export function InboundPlanPage() {
+interface InboundPlanPageProps {
+  onGenerateOrder?: (plan: InboundPlan) => void;
+}
+
+export function InboundPlanPage({ onGenerateOrder }: InboundPlanPageProps) {
   const [plans, setPlans] = useState<InboundPlan[]>(mockInboundPlans);
   const [showModal, setShowModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showGenerateOrderModal, setShowGenerateOrderModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [editingPlan, setEditingPlan] = useState<InboundPlan | null>(null);
   const [detailPlan, setDetailPlan] = useState<InboundPlan | null>(null);
   const [closePlan, setClosePlan] = useState<InboundPlan | null>(null);
@@ -308,9 +313,13 @@ export function InboundPlanPage() {
       status: '已生成入库单',
     } : p));
     
+    const plan = generateOrderPlan;
     setShowGenerateOrderModal(false);
     setGenerateOrderPlan(null);
-    alert('入库单已生成');
+    
+    if (plan && onGenerateOrder) {
+      onGenerateOrder(plan);
+    }
   };
 
   const handleCustomerSelectError = (customer: Customer) => {
@@ -339,17 +348,13 @@ export function InboundPlanPage() {
             <Plus className="w-4 h-4" />
             新增入库计划
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
+          <button onClick={() => setShowImportModal(true)} className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
             <Upload className="w-4 h-4" />
             导入
           </button>
           <button className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
             <Download className="w-4 h-4" />
             导出
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
-            <FileText className="w-4 h-4" />
-            下载模板
           </button>
         </div>
       </div>
@@ -537,6 +542,8 @@ export function InboundPlanPage() {
         isOpen={showModal}
         onClose={() => { setShowModal(false); resetForm(); }}
         title={editingPlan ? '编辑入库计划' : '新增入库计划'}
+        width="900px"
+        allowHorizontalScroll={true}
       >
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -648,7 +655,7 @@ export function InboundPlanPage() {
               </button>
             </div>
             {errors.items && <p className="text-xs text-red-500 mb-2">{errors.items}</p>}
-            <div className="border border-slate-200 rounded-lg overflow-hidden">
+            <div className="border border-slate-200 rounded-lg overflow-hidden min-w-max">
               <table className="w-full">
                 <thead className="bg-slate-50">
                   <tr>
@@ -912,6 +919,40 @@ export function InboundPlanPage() {
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               确认生成
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        title="导入入库计划"
+      >
+        <div className="space-y-6">
+          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h4 className="text-sm font-medium text-blue-800 mb-2">下载导入模板</h4>
+            <button
+              onClick={() => { alert('导入模板已下载'); }}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Download className="w-4 h-4" />
+              下载模板
+            </button>
+            <p className="text-xs text-blue-600 mt-2">提示：请按照模板格式填写数据，导入前请确保客户和货物信息已在系统中维护。</p>
+          </div>
+          <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+            <h4 className="text-sm font-medium text-slate-800 mb-2">上传文件</h4>
+            <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
+              <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+              <p className="text-sm text-slate-600">点击或拖拽文件到此处上传</p>
+              <p className="text-xs text-slate-400 mt-1">支持 .xlsx, .xls, .csv 格式</p>
+            </div>
+            <button
+              onClick={() => { alert('文件上传成功，正在解析...'); setShowImportModal(false); }}
+              className="w-full mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            >
+              开始导入
             </button>
           </div>
         </div>

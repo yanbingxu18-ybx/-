@@ -7,7 +7,7 @@ import { CustomerOutboundRulePage } from './pages/CustomerOutboundRulePage';
 import { CustomersPage } from './pages/CustomersPage';
 import { InboundPlanPage } from './pages/InboundPlanPage';
 import { InboundOrderPage } from './pages/InboundOrderPage';
-import { PageTab } from './types';
+import { PageTab, InboundPlan } from './types';
 
 const pageTitles: Record<PageTab, string> = {
   goods: '货物管理',
@@ -20,6 +20,16 @@ const pageTitles: Record<PageTab, string> = {
 
 function App() {
   const [activeTab, setActiveTab] = useState<PageTab>('goods');
+  const [createOrderFromPlan, setCreateOrderFromPlan] = useState<InboundPlan | null>(null);
+
+  const handleGenerateOrder = (plan: InboundPlan) => {
+    setCreateOrderFromPlan(plan);
+    setActiveTab('inboundOrder');
+  };
+
+  const clearCreateOrderFromPlan = () => {
+    setCreateOrderFromPlan(null);
+  };
 
   const renderPage = () => {
     switch (activeTab) {
@@ -32,9 +42,9 @@ function App() {
       case 'customers':
         return <CustomersPage />;
       case 'inboundPlan':
-        return <InboundPlanPage />;
+        return <InboundPlanPage onGenerateOrder={handleGenerateOrder} />;
       case 'inboundOrder':
-        return <InboundOrderPage />;
+        return <InboundOrderPage initialPlan={createOrderFromPlan} onPlanUsed={clearCreateOrderFromPlan} />;
       default:
         return <GoodsPage />;
     }

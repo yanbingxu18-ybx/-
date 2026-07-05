@@ -6,9 +6,10 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   width?: string;
+  allowHorizontalScroll?: boolean;
 }
 
-export function Modal({ isOpen, title, onClose, children, width = 'max-w-lg' }: ModalProps) {
+export function Modal({ isOpen, title, onClose, children, width = 'max-w-lg', allowHorizontalScroll = false }: ModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -23,7 +24,7 @@ export function Modal({ isOpen, title, onClose, children, width = 'max-w-lg' }: 
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className={`p-6 overflow-y-auto max-h-[calc(90vh-120px)] ${allowHorizontalScroll ? 'overflow-x-auto' : ''}`}>
           {children}
         </div>
       </div>

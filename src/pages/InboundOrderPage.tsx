@@ -4,7 +4,12 @@ import { Modal } from '../components/Modal';
 import { InboundOrder, InboundOrderItem, Customer, InboundPlan } from '../types';
 import { mockInboundOrders, mockCustomers, mockGoods, mockStores, mockInboundPlans } from '../mock/data';
 
-export function InboundOrderPage() {
+interface InboundOrderPageProps {
+  initialPlan?: InboundPlan | null;
+  onPlanUsed?: () => void;
+}
+
+export function InboundOrderPage({ initialPlan, onPlanUsed }: InboundOrderPageProps) {
   const [orders, setOrders] = useState<InboundOrder[]>(mockInboundOrders);
   const [showModal, setShowModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -52,6 +57,51 @@ export function InboundOrderPage() {
     setMonthlyCustomers(mockCustomers.filter(c => c.customerType === '月库型'));
     setAvailablePlans(mockInboundPlans.filter(p => p.status === '待入库'));
   }, []);
+
+  useEffect(() => {
+    if (initialPlan) {
+      setCustomerTypeMode('warehouse');
+      setSelectedPlan(initialPlan);
+      setFormData({
+        orderNo: generateOrderNo(initialPlan.customerCode),
+        planId: initialPlan.id,
+        planNo: initialPlan.planNo,
+        customerId: initialPlan.customerId,
+        customerCode: initialPlan.customerCode,
+        customerName: initialPlan.customerName,
+        customerType: '仓储型',
+        storeId: initialPlan.storeId,
+        storeName: initialPlan.storeName,
+        plateNumber: initialPlan.plateNumber,
+        plannedDate: initialPlan.plannedDate,
+        actualDate: '',
+        inboundType: initialPlan.inboundType,
+        temperatureZone: initialPlan.temperatureZone,
+        attachment: '',
+      });
+      setItems(initialPlan.items.map(item => ({
+        id: String(Date.now() + Math.random()),
+        orderId: '',
+        goodsId: item.goodsId,
+        goodsCode: item.goodsCode,
+        goodsName: item.goodsName,
+        spec: item.spec,
+        plannedQuantity: item.plannedQuantity,
+        plannedUnit: item.plannedUnit,
+        actualQuantity: item.plannedQuantity,
+        actualUnit: item.plannedUnit,
+        productionDate: item.productionDate,
+        expiryDate: item.expiryDate,
+        isGoodQuality: true,
+        remark: '',
+        isAbnormal: false,
+      })));
+      setShowModal(true);
+      if (onPlanUsed) {
+        onPlanUsed();
+      }
+    }
+  }, [initialPlan]);
 
   const filteredOrders = orders.filter(order => {
     if (searchParams.orderNo && !order.orderNo.includes(searchParams.orderNo)) return false;
