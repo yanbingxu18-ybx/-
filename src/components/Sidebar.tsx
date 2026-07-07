@@ -26,6 +26,7 @@ const menuGroups: {
       { id: 'inboundOrder', label: '入库单管理', icon: FileText },
       { id: 'stockStat', label: '库存统计', icon: BarChart3 },
       { id: 'outboundPlan', label: '出库计划', icon: FileText },
+      { id: 'outboundOrder', label: '出库单管理', icon: FileText },
     ],
   },
   {

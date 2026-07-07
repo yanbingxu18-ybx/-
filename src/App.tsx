@@ -9,7 +9,8 @@ import { InboundPlanPage } from './pages/InboundPlanPage';
 import { InboundOrderPage } from './pages/InboundOrderPage';
 import { StockStatPage } from './pages/StockStatPage';
 import { OutboundPlanPage } from './pages/OutboundPlanPage';
-import { PageTab, InboundPlan } from './types';
+import { OutboundOrderPage } from './pages/OutboundOrderPage';
+import { PageTab, InboundPlan, OutboundPlan } from './types';
 
 const pageTitles: Record<PageTab, string> = {
   goods: '货物管理',
@@ -20,20 +21,32 @@ const pageTitles: Record<PageTab, string> = {
   inboundOrder: '入库单管理',
   stockStat: '库存统计',
   outboundPlan: '出库计划',
+  outboundOrder: '出库单管理',
 };
 
 function App() {
   const [activeTab, setActiveTab] = useState<PageTab>('goods');
   const [createOrderFromPlan, setCreateOrderFromPlan] = useState<InboundPlan | null>(null);
+  const [createOutboundOrderFromPlan, setCreateOutboundOrderFromPlan] = useState<OutboundPlan | null>(null);
 
   const handleGenerateOrder = (plan: InboundPlan) => {
     setCreateOrderFromPlan(plan);
     setActiveTab('inboundOrder');
   };
 
+  const handleGenerateOutboundOrder = (plan: OutboundPlan) => {
+    setCreateOutboundOrderFromPlan(plan);
+    setActiveTab('outboundOrder');
+  };
+
   const clearCreateOrderFromPlan = () => {
     setCreateOrderFromPlan(null);
   };
+
+  const clearCreateOutboundOrderFromPlan = () => {
+    setCreateOutboundOrderFromPlan(null);
+  };
+  clearCreateOutboundOrderFromPlan;
 
   const renderPage = () => {
     switch (activeTab) {
@@ -52,7 +65,9 @@ function App() {
       case 'stockStat':
         return <StockStatPage />;
       case 'outboundPlan':
-        return <OutboundPlanPage />;
+        return <OutboundPlanPage onGenerateOrder={handleGenerateOutboundOrder} />;
+      case 'outboundOrder':
+        return <OutboundOrderPage generateData={{ plan: createOutboundOrderFromPlan }} onCloseModal={clearCreateOutboundOrderFromPlan} />;
       default:
         return <GoodsPage />;
     }

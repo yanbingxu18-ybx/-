@@ -4,7 +4,7 @@ import { Modal } from '../components/Modal';
 import { OutboundPlan, OutboundPlanItem } from '../types';
 import { mockOutboundPlans, mockCustomers, mockGoods, mockStores } from '../mock/data';
 
-export function OutboundPlanPage() {
+export function OutboundPlanPage({ onGenerateOrder }: { onGenerateOrder?: (plan: OutboundPlan) => void }) {
   const [plans, setPlans] = useState<OutboundPlan[]>(mockOutboundPlans);
   const [filteredPlans, setFilteredPlans] = useState<OutboundPlan[]>(mockOutboundPlans);
   const [showModal, setShowModal] = useState(false);
@@ -428,9 +428,13 @@ export function OutboundPlanPage() {
       status: '已生成出库单',
     } : p));
 
+    const plan = generateOrderPlan;
     setShowGenerateOrderModal(false);
     setGenerateOrderPlan(null);
-    alert('出库单已生成');
+    
+    if (onGenerateOrder && plan) {
+      onGenerateOrder(plan);
+    }
   };
 
   const handleExport = () => {
@@ -871,27 +875,6 @@ export function OutboundPlanPage() {
         {generateOrderPlan && (
           <div className="space-y-4">
             <p className="text-sm text-slate-600">确定要基于出库计划 <span className="font-medium">{generateOrderPlan.planNo}</span> 生成出库单吗？</p>
-            <div className="border border-slate-200 rounded-lg p-4">
-              <h4 className="text-sm font-medium text-slate-700 mb-2">出库计划明细：</h4>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr>
-                    <th className="text-left">商品名称</th>
-                    <th className="text-right">计划出库数量</th>
-                    <th className="text-left">单位</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {generateOrderPlan.items.map(item => (
-                    <tr key={item.id} className="border-t">
-                      <td>{item.goodsName}</td>
-                      <td className="text-right">{item.plannedQuantity}</td>
-                      <td>{item.plannedUnit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
             <div className="flex justify-end gap-3">
               <button onClick={() => { setShowGenerateOrderModal(false); setGenerateOrderPlan(null); }} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
                 取消

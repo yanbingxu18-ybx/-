@@ -1,4 +1,4 @@
-import { Goods, Store, CustomerOutboundRule, Customer, Vehicle, InboundPlan, InboundOrder, StockStat, OutboundPlan } from '../types';
+import { Goods, Store, CustomerOutboundRule, Customer, Vehicle, InboundPlan, InboundOrder, StockStat, OutboundPlan, OutboundOrder } from '../types';
 
 export const mockGoods: Goods[] = [
   { 
@@ -443,9 +443,9 @@ export const mockStockStats: StockStat[] = [
     stockQuantity: 50,
     stockUnit: '箱',
     isGoodQuality: true,
-    productionDate: '2026-07-03',
-    expiryDate: calculateExpiryDate('2026-07-03', 21),
-    goodsShelfLife: calculateGoodsShelfLife('2026-07-03', [21]),
+    productionDate: '2026-06-03',
+    expiryDate: calculateExpiryDate('2026-06-03', 21),
+    goodsShelfLife: calculateGoodsShelfLife('2026-06-03', [21]),
   },
   {
     id: '5',
@@ -460,9 +460,9 @@ export const mockStockStats: StockStat[] = [
     stockQuantity: 5,
     stockUnit: '箱',
     isGoodQuality: false,
-    productionDate: '2026-07-03',
-    expiryDate: calculateExpiryDate('2026-07-03', 21),
-    goodsShelfLife: calculateGoodsShelfLife('2026-07-03', [21]),
+    productionDate: '2026-06-03',
+    expiryDate: calculateExpiryDate('2026-06-03', 21),
+    goodsShelfLife: calculateGoodsShelfLife('2026-06-03', [21]),
   },
   {
     id: '6',
@@ -706,6 +706,55 @@ export const mockOutboundPlans: OutboundPlan[] = [
     updatedAt: '2026-07-06 10:00:00',
     items: [
       { id: 'op7', planId: '4', goodsId: '6', goodsCode: 'NONGFU', goodsName: '农夫山泉', spec: '550ml', plannedQuantity: 150, plannedUnit: '件', totalWeight: 1500, totalVolume: 6, goodsType: '饮用水', salesPrice: 30, salesAmount: 4500, remark: '', productionDate: '', expiryDate: '', isGoodQuality: true, rowSource: 'original' },
+    ],
+  },
+];
+
+export const mockOutboundOrders: OutboundOrder[] = [
+  {
+    id: '1',
+    orderNo: 'CKDBH001202607080001',
+    planId: '3',
+    planNo: 'CKJHHRWJ001202607060001',
+    customerId: '4',
+    customerCode: 'HRWJ001',
+    customerName: '深圳华润万家',
+    storeId: '4',
+    storeName: '深圳冷冻仓库',
+    plannedDate: '2026-07-08',
+    actualDate: '2026-07-08',
+    remark: '',
+    status: '已出库',
+    createdBy: '刘仓管',
+    createdAt: '2026-07-08 09:00:00',
+    updatedBy: '',
+    updatedAt: '',
+    items: [
+      { id: 'oo1', orderId: '1', goodsId: '3', goodsCode: 'MENGNIU', goodsName: '蒙牛纯牛奶', spec: '250ml*12盒', plannedQuantity: 200, plannedUnit: '箱', actualQuantity: 200, actualUnit: '箱', productionDate: '2026-07-01', expiryDate: calculateExpiryDate('2026-07-01', 180), isGoodQuality: true, actualSignedQuantity: 195, remark: '' },
+      { id: 'oo2', orderId: '1', goodsId: '5', goodsCode: 'HONGNIU', goodsName: '红牛饮料', spec: '250ml', plannedQuantity: 80, plannedUnit: '件', actualQuantity: 75, actualUnit: '件', productionDate: '2026-06-15', expiryDate: calculateExpiryDate('2026-06-15', 540), isGoodQuality: true, actualSignedQuantity: 75, remark: '库存不足，少出5件' },
+    ],
+  },
+  {
+    id: '2',
+    orderNo: 'CKDBH001202607090001',
+    planId: '1',
+    planNo: 'CKJHBH001202607070001',
+    customerId: '1',
+    customerCode: 'BH001',
+    customerName: '北京华联超市',
+    storeId: '1',
+    storeName: '北京冷冻仓库',
+    plannedDate: '2026-07-10',
+    actualDate: '',
+    remark: '',
+    status: '暂存',
+    createdBy: '刘仓管',
+    createdAt: '2026-07-09 14:00:00',
+    updatedBy: '刘仓管',
+    updatedAt: '2026-07-09 15:00:00',
+    items: [
+      { id: 'oo3', orderId: '2', goodsId: '1', goodsCode: 'COKE001', goodsName: '可口可乐', spec: '500ml', plannedQuantity: 100, plannedUnit: '件', actualQuantity: 100, actualUnit: '件', productionDate: '2026-07-01', expiryDate: calculateExpiryDate('2026-07-01', 365), isGoodQuality: true, actualSignedQuantity: 0, remark: '' },
+      { id: 'oo4', orderId: '2', goodsId: '2', goodsCode: 'PEPSI001', goodsName: '百事可乐', spec: '330ml', plannedQuantity: 80, plannedUnit: '箱', actualQuantity: 80, actualUnit: '箱', productionDate: '2026-07-02', expiryDate: calculateExpiryDate('2026-07-02', 365), isGoodQuality: true, actualSignedQuantity: 0, remark: '' },
     ],
   },
 ];

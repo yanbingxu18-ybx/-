@@ -231,6 +231,45 @@ export interface OutboundPlan {
   items: OutboundPlanItem[];
 }
 
+export interface OutboundOrderItem {
+  id: string;
+  orderId: string;
+  goodsId: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  plannedQuantity: number;
+  plannedUnit: string;
+  actualQuantity: number;
+  actualUnit: string;
+  productionDate: string;
+  expiryDate: string;
+  isGoodQuality: boolean;
+  actualSignedQuantity: number;
+  remark: string;
+}
+
+export interface OutboundOrder {
+  id: string;
+  orderNo: string;
+  planId: string;
+  planNo: string;
+  customerId: string;
+  customerCode: string;
+  customerName: string;
+  storeId: string;
+  storeName: string;
+  plannedDate: string;
+  actualDate: string;
+  remark: string;
+  status: '暂存' | '已出库';
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  items: OutboundOrderItem[];
+}
+
 export type PageTab = 
   | 'goods' 
   | 'stores' 
@@ -239,4 +278,5 @@ export type PageTab =
   | 'inboundPlan'
   | 'inboundOrder'
   | 'stockStat'
-  | 'outboundPlan';
+  | 'outboundPlan'
+  | 'outboundOrder';
