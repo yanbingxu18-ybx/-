@@ -20,6 +20,8 @@ export function GoodsPage() {
     code: '',
     spec: '',
     unit: '件',
+    unitWeight: 0,
+    unitVolume: 0,
     shelfLifeDays: 0,
   });
 
@@ -91,7 +93,7 @@ export function GoodsPage() {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', code: '', spec: '', unit: '件', shelfLifeDays: 0 });
+    setFormData({ name: '', code: '', spec: '', unit: '件', unitWeight: 0, unitVolume: 0, shelfLifeDays: 0 });
     setShelfLifeDetails([]);
     setErrors({});
     setEditingGoods(null);
@@ -104,6 +106,8 @@ export function GoodsPage() {
       code: item.code,
       spec: item.spec,
       unit: item.unit,
+      unitWeight: item.unitWeight || 0,
+      unitVolume: item.unitVolume || 0,
       shelfLifeDays: item.shelfLifeDays,
     });
     setShelfLifeDetails(item.shelfLifeDetails || []);
@@ -192,6 +196,8 @@ export function GoodsPage() {
               <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">货物编码</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">规格</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">单位</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">单位重量（kg）</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">单位体积（m³）</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">保质期(天)</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">效期明细</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-slate-600">操作</th>
@@ -207,6 +213,8 @@ export function GoodsPage() {
                 <td className="px-6 py-4 text-sm text-slate-600">{item.code}</td>
                 <td className="px-6 py-4 text-sm text-slate-600">{item.spec || '-'}</td>
                 <td className="px-6 py-4 text-sm text-slate-600">{item.unit}</td>
+                <td className="px-6 py-4 text-sm text-slate-600">{item.unitWeight || '-'}</td>
+                <td className="px-6 py-4 text-sm text-slate-600">{item.unitVolume || '-'}</td>
                 <td className="px-6 py-4 text-sm text-slate-600">{item.shelfLifeDays}</td>
                 <td className="px-6 py-4 text-sm text-slate-600">
                   {item.shelfLifeDetails && item.shelfLifeDetails.length > 0
@@ -346,6 +354,30 @@ export function GoodsPage() {
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">单位重量（kg）</label>
+            <input
+              type="number"
+              value={formData.unitWeight}
+              onChange={(e) => setFormData({ ...formData, unitWeight: parseFloat(e.target.value) || 0 })}
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入单位重量"
+              min="0"
+              step="0.01"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">单位体积（m³）</label>
+            <input
+              type="number"
+              value={formData.unitVolume}
+              onChange={(e) => setFormData({ ...formData, unitVolume: parseFloat(e.target.value) || 0 })}
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入单位体积"
+              min="0"
+              step="0.001"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">保质期（天）</label>
