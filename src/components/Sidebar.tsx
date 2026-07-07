@@ -25,6 +25,7 @@ const menuGroups: {
       { id: 'inboundPlan', label: '入库计划', icon: Truck },
       { id: 'inboundOrder', label: '入库单管理', icon: FileText },
       { id: 'stockStat', label: '库存统计', icon: BarChart3 },
+      { id: 'outboundPlan', label: '出库计划', icon: FileText },
     ],
   },
   {

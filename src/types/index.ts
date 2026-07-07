@@ -10,6 +10,8 @@ export interface Goods {
   code: string;
   spec: string;
   unit: string;
+  unitWeight: number;
+  unitVolume: number;
   shelfLifeDays: number;
   shelfLifeDetails: GoodsShelfLifeDetail[];
   createdAt: string;
@@ -179,6 +181,56 @@ export interface StockStat {
   goodsShelfLife: string;
 }
 
+export interface OutboundPlanItem {
+  id: string;
+  planId: string;
+  goodsId: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  plannedQuantity: number;
+  plannedUnit: string;
+  totalWeight: number;
+  totalVolume: number;
+  goodsType: string;
+  salesPrice: number;
+  salesAmount: number;
+  remark: string;
+  productionDate: string;
+  expiryDate: string;
+  isGoodQuality: boolean;
+  rowSource: 'original' | 'copied';
+}
+
+export interface OutboundPlan {
+  id: string;
+  planNo: string;
+  businessType: '整车' | '零担' | '城配';
+  customerOrderNo: string;
+  department: string;
+  customerId: string;
+  customerCode: string;
+  customerName: string;
+  deliveryArea: string;
+  receivingArea: string;
+  requiredDepartureTime: string;
+  requiredArrivalTime: string;
+  outboundType: '销售出库' | '退货出库' | '报废出库';
+  storeId: string;
+  storeName: string;
+  plannedDate: string;
+  remark: string;
+  status: '待出库' | '已生成出库单' | '已关闭';
+  closeReason: string;
+  closeBy: string;
+  closeTime: string;
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  items: OutboundPlanItem[];
+}
+
 export type PageTab = 
   | 'goods' 
   | 'stores' 
@@ -186,4 +238,5 @@ export type PageTab =
   | 'customers'
   | 'inboundPlan'
   | 'inboundOrder'
-  | 'stockStat';
+  | 'stockStat'
+  | 'outboundPlan';

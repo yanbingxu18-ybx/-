@@ -8,6 +8,7 @@ import { CustomersPage } from './pages/CustomersPage';
 import { InboundPlanPage } from './pages/InboundPlanPage';
 import { InboundOrderPage } from './pages/InboundOrderPage';
 import { StockStatPage } from './pages/StockStatPage';
+import { OutboundPlanPage } from './pages/OutboundPlanPage';
 import { PageTab, InboundPlan } from './types';
 
 const pageTitles: Record<PageTab, string> = {
@@ -18,6 +19,7 @@ const pageTitles: Record<PageTab, string> = {
   inboundPlan: '入库计划',
   inboundOrder: '入库单管理',
   stockStat: '库存统计',
+  outboundPlan: '出库计划',
 };
 
 function App() {
@@ -49,6 +51,8 @@ function App() {
         return <InboundOrderPage initialPlan={createOrderFromPlan} onPlanUsed={clearCreateOrderFromPlan} />;
       case 'stockStat':
         return <StockStatPage />;
+      case 'outboundPlan':
+        return <OutboundPlanPage />;
       default:
         return <GoodsPage />;
     }
