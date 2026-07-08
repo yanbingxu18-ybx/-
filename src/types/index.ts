@@ -270,6 +270,43 @@ export interface OutboundOrder {
   items: OutboundOrderItem[];
 }
 
+export interface AbnormalSignRecord {
+  id: string;
+  customerId: string;
+  customerName: string;
+  storeId: string;
+  storeName: string;
+  orderNo: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  outboundQuantity: number;
+  signedQuantity: number;
+  unit: string;
+  reason: string;
+  registeredBy: string;
+  registeredAt: string;
+}
+
+export interface AbnormalReport {
+  id: string;
+  orderNo: string;
+  orderType: 'inbound' | 'outbound';
+  orderTime: string;
+  goodsCode: string;
+  goodsName: string;
+  spec: string;
+  plannedQuantity: number;
+  actualQuantity: number;
+  unit: string;
+  customerId: string;
+  customerName: string;
+  storeId: string;
+  storeName: string;
+  auditStatus: 'pending' | 'approved' | 'rejected';
+  auditRemark: string;
+}
+
 export type PageTab = 
   | 'goods' 
   | 'stores' 
@@ -279,4 +316,7 @@ export type PageTab =
   | 'inboundOrder'
   | 'stockStat'
   | 'outboundPlan'
-  | 'outboundOrder';
+  | 'outboundOrder'
+  | 'inoutStat'
+  | 'abnormalSign'
+  | 'abnormalReport';

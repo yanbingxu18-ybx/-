@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Package, Warehouse, AlertTriangle, Users, ChevronDown, ChevronRight, Truck, FileText, BarChart3 } from 'lucide-react';
+import { Package, Warehouse, AlertTriangle, Users, ChevronDown, ChevronRight, Truck, FileText, BarChart3, AlertCircle } from 'lucide-react';
 import { PageTab } from '../types';
 
 interface SidebarProps {
@@ -27,6 +27,9 @@ const menuGroups: {
       { id: 'stockStat', label: '库存统计', icon: BarChart3 },
       { id: 'outboundPlan', label: '出库计划', icon: FileText },
       { id: 'outboundOrder', label: '出库单管理', icon: FileText },
+      { id: 'inoutStat', label: '出入库统计', icon: BarChart3 },
+      { id: 'abnormalSign', label: '异常签收管理', icon: AlertTriangle },
+      { id: 'abnormalReport', label: '异常上报管理', icon: AlertCircle },
     ],
   },
   {

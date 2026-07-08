@@ -10,6 +10,9 @@ import { InboundOrderPage } from './pages/InboundOrderPage';
 import { StockStatPage } from './pages/StockStatPage';
 import { OutboundPlanPage } from './pages/OutboundPlanPage';
 import { OutboundOrderPage } from './pages/OutboundOrderPage';
+import { InoutStatPage } from './pages/InoutStatPage';
+import { AbnormalSignPage } from './pages/AbnormalSignPage';
+import { AbnormalReportPage } from './pages/AbnormalReportPage';
 import { PageTab, InboundPlan, OutboundPlan } from './types';
 
 const pageTitles: Record<PageTab, string> = {
@@ -22,6 +25,9 @@ const pageTitles: Record<PageTab, string> = {
   stockStat: '库存统计',
   outboundPlan: '出库计划',
   outboundOrder: '出库单管理',
+  inoutStat: '出入库统计',
+  abnormalSign: '异常签收管理',
+  abnormalReport: '异常上报管理',
 };
 
 function App() {
@@ -68,6 +74,12 @@ function App() {
         return <OutboundPlanPage onGenerateOrder={handleGenerateOutboundOrder} />;
       case 'outboundOrder':
         return <OutboundOrderPage generateData={{ plan: createOutboundOrderFromPlan }} onCloseModal={clearCreateOutboundOrderFromPlan} />;
+      case 'inoutStat':
+        return <InoutStatPage />;
+      case 'abnormalSign':
+        return <AbnormalSignPage />;
+      case 'abnormalReport':
+        return <AbnormalReportPage />;
       default:
         return <GoodsPage />;
     }
